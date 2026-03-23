@@ -1,0 +1,60 @@
+site_name: my-package  # TODO: update
+site_url: https://fbumann.github.io/my-package/  # TODO: update
+repo_url: https://github.com/FBumann/my-package  # TODO: update
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Fira Code
+  features:
+    - content.code.copy
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            paths: [src]
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Changelog: changelog.md
+
+extra:
+  version:
+    provider: mike
+
+watch:
+  - src
+  - docs
