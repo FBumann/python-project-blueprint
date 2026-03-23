@@ -16,15 +16,13 @@ docs = [
     "mkdocs-material>=9",
     "mkdocstrings[python]>=0.27",
 ]
-
-[dependency-groups]
 dev = [
+    "my-package[docs]",
     "pytest>=8",
     "pytest-cov>=6",
     "mypy>=1",
     "ruff>=0.11",
     "pre-commit>=4",
-    {include-group = "docs"},
 ]
 
 [tool.hatch.version]
