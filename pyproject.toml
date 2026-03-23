@@ -15,7 +15,6 @@ dependencies = []
 docs = [
     "mkdocs-material>=9",
     "mkdocstrings[python]>=0.27",
-    "mike>=2",
 ]
 
 [dependency-groups]

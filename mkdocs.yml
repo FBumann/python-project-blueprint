@@ -1,5 +1,5 @@
 site_name: my-package  # TODO: update
-site_url: https://fbumann.github.io/my-package/  # TODO: update
+site_url: https://my-package.readthedocs.io/  # TODO: update
 repo_url: https://github.com/FBumann/my-package  # TODO: update
 
 theme:
@@ -50,10 +50,6 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Changelog: changelog.md
-
-extra:
-  version:
-    provider: mike
 
 watch:
   - src

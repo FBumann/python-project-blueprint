@@ -9,8 +9,7 @@ Opinionated blueprint for Python packages with automated CI, releases, and publi
 | `.github/workflows/ci.yaml` | Lint (ruff) + type check (mypy) + test (pytest matrix) + ci-success gate |
 | `.github/workflows/release.yaml` | release-please with GitHub App token |
 | `.github/workflows/publish.yaml` | Build + PyPI OIDC publish (tag push or workflow_call) |
-| `.github/workflows/docs.yaml` | MkDocs build + versioned deploy via mike (GitHub Pages) |
-| `.readthedocs.yaml` | Read the Docs config (alternative to GitHub Pages) |
+| `.readthedocs.yaml` | Read the Docs configuration |
 | `.github/workflows/pr-title.yaml` | Conventional commit PR title validation |
 | `.github/workflows/dependabot-auto-merge.yaml` | Auto-merge minor/patch dependency bumps |
 | `.github/dependabot.yml` | Dependabot config for actions + pip |
@@ -27,11 +26,10 @@ PR opened           → CI (lint + typecheck + test)
 
 PR merged to main   → CI runs on main
                     → release-please opens/updates version bump PR
-                    → docs dev alias deployed
 
 release PR merged   → release-please creates git tag + GitHub Release
                     → tag triggers publish.yaml → PyPI
-                    → release.yaml chains publish → docs versioned deploy
+                    → Read the Docs rebuilds automatically (webhook)
 
 manual tag push     → publish.yaml → PyPI + GitHub Release
   v1.0.0-rc.1         (pre-release tags detected automatically)
@@ -74,28 +72,15 @@ If you already have an app from another project, reuse it.
    - **Environment**: `pypi`
 3. Create a GitHub environment named `pypi` in your repo settings
 
-### 4. Docs hosting (pick one)
-
-#### Option A: GitHub Pages (via mike)
-
-Uses `docs.yaml` workflow for versioned deployment.
-
-1. Go to repo Settings → Pages → Source: **Deploy from a branch**
-2. Branch: `gh-pages`, folder: `/ (root)`
-3. The first docs deploy will create the `gh-pages` branch automatically
-4. `release.yaml` chains docs deployment after publish
-
-#### Option B: Read the Docs
-
-Uses `.readthedocs.yaml` — RTD rebuilds automatically on tag/push via webhook.
+### 4. Read the Docs
 
 1. Connect your repo at [readthedocs.org](https://readthedocs.org/)
-2. Delete `docs.yaml` and the `deploy-docs` job from `release.yaml`
-3. RTD handles versioning, builds, and hosting — no `mike` needed
+2. RTD rebuilds automatically on push and tag creation (versioned docs)
 
 Docs dependencies live in `[project.optional-dependencies] docs` so both
 RTD (`pip install .[docs]`) and local dev (`uv sync --group dev` via
-`include-group`) work from the same source.
+`include-group`) resolve from the same source. CI also validates the docs
+build via `mkdocs build --strict`.
 
 ### 5. Codecov (optional)
 
@@ -135,7 +120,7 @@ Publishes to PyPI and creates a GitHub Release. Note: skips CHANGELOG (managed b
 
 ### Skip docs
 
-Delete `docs.yaml`, `.readthedocs.yaml`, and the `deploy-docs` job from `release.yaml`.
+Delete `.readthedocs.yaml`, `mkdocs.yml`, and the `docs/` directory.
 Remove the `docs` job from `ci.yaml` and `docs` from the `ci-success` needs list.
 
 ### Skip typecheck
