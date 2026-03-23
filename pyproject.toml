@@ -11,16 +11,21 @@ license = "MIT"
 requires-python = ">=3.12"
 dependencies = []
 
+[project.optional-dependencies]
+docs = [
+    "mkdocs-material>=9",
+    "mkdocstrings[python]>=0.27",
+    "mike>=2",
+]
+
 [dependency-groups]
 dev = [
     "pytest>=8",
     "pytest-cov>=6",
     "mypy>=1",
     "ruff>=0.11",
-    "mkdocs-material>=9",
-    "mkdocstrings[python]>=0.27",
-    "mike>=2",
     "pre-commit>=4",
+    {include-group = "docs"},
 ]
 
 [tool.hatch.version]

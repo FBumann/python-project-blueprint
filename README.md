@@ -9,7 +9,8 @@ Opinionated blueprint for Python packages with automated CI, releases, and publi
 | `.github/workflows/ci.yaml` | Lint (ruff) + type check (mypy) + test (pytest matrix) + ci-success gate |
 | `.github/workflows/release.yaml` | release-please with GitHub App token |
 | `.github/workflows/publish.yaml` | Build + PyPI OIDC publish (tag push or workflow_call) |
-| `.github/workflows/docs.yaml` | MkDocs build + versioned deploy via mike |
+| `.github/workflows/docs.yaml` | MkDocs build + versioned deploy via mike (GitHub Pages) |
+| `.readthedocs.yaml` | Read the Docs config (alternative to GitHub Pages) |
 | `.github/workflows/pr-title.yaml` | Conventional commit PR title validation |
 | `.github/workflows/dependabot-auto-merge.yaml` | Auto-merge minor/patch dependency bumps |
 | `.github/dependabot.yml` | Dependabot config for actions + pip |
@@ -73,11 +74,28 @@ If you already have an app from another project, reuse it.
    - **Environment**: `pypi`
 3. Create a GitHub environment named `pypi` in your repo settings
 
-### 4. GitHub Pages (if using docs.yaml)
+### 4. Docs hosting (pick one)
+
+#### Option A: GitHub Pages (via mike)
+
+Uses `docs.yaml` workflow for versioned deployment.
 
 1. Go to repo Settings → Pages → Source: **Deploy from a branch**
 2. Branch: `gh-pages`, folder: `/ (root)`
 3. The first docs deploy will create the `gh-pages` branch automatically
+4. `release.yaml` chains docs deployment after publish
+
+#### Option B: Read the Docs
+
+Uses `.readthedocs.yaml` — RTD rebuilds automatically on tag/push via webhook.
+
+1. Connect your repo at [readthedocs.org](https://readthedocs.org/)
+2. Delete `docs.yaml` and the `deploy-docs` job from `release.yaml`
+3. RTD handles versioning, builds, and hosting — no `mike` needed
+
+Docs dependencies live in `[project.optional-dependencies] docs` so both
+RTD (`pip install .[docs]`) and local dev (`uv sync --group dev` via
+`include-group`) work from the same source.
 
 ### 5. Codecov (optional)
 
@@ -117,8 +135,8 @@ Publishes to PyPI and creates a GitHub Release. Note: skips CHANGELOG (managed b
 
 ### Skip docs
 
-Delete `docs.yaml` and remove the `deploy-docs` job from `release.yaml` (if you add one).
-Use Read the Docs or similar instead.
+Delete `docs.yaml`, `.readthedocs.yaml`, and the `deploy-docs` job from `release.yaml`.
+Remove the `docs` job from `ci.yaml` and `docs` from the `ci-success` needs list.
 
 ### Skip typecheck
 
