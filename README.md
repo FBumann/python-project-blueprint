@@ -64,13 +64,15 @@ If you already have an app from another project, reuse it.
 
 ### 3. PyPI trusted publisher
 
-1. Go to https://pypi.org/manage/project/YOUR-PACKAGE/settings/publishing/
-2. Add a trusted publisher:
+1. Create a GitHub environment named `pypi` in your repo settings
+   (Settings → Environments → New environment)
+2. Go to https://pypi.org/manage/project/YOUR-PACKAGE/settings/publishing/
+   (for new packages: https://pypi.org/manage/account/publishing/)
+3. Add a trusted publisher:
    - **Owner**: your GitHub org/user
    - **Repository**: your repo name
    - **Workflow**: `publish.yaml`
    - **Environment**: `pypi`
-3. Create a GitHub environment named `pypi` in your repo settings
 
 ### 4. Read the Docs
 
@@ -78,9 +80,9 @@ If you already have an app from another project, reuse it.
 2. RTD rebuilds automatically on push and tag creation (versioned docs)
 
 Docs dependencies live in `[project.optional-dependencies] docs` so both
-RTD (`pip install .[docs]`) and local dev (`uv sync --group dev` via
-`include-group`) resolve from the same source. CI also validates the docs
-build via `mkdocs build --strict`.
+RTD (`pip install .[docs]`) and local dev (`uv sync --extra dev`) resolve
+from the same source. CI also validates the docs build via
+`mkdocs build --strict`.
 
 ### 5. Codecov (optional)
 
