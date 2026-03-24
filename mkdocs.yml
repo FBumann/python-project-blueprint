@@ -1,55 +1,111 @@
 site_name: my-package  # TODO: update
 site_url: https://my-package.readthedocs.io/  # TODO: update
 repo_url: https://github.com/FBumann/my-package  # TODO: update
+repo_name: FBumann/my-package  # TODO: update
+edit_uri: edit/main/docs/
 
 theme:
   name: material
   palette:
     - scheme: default
-      primary: teal
-      accent: cyan
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
-      primary: teal
-      accent: cyan
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
   font:
     text: Roboto
-    code: Fira Code
+    code: Roboto Mono
   features:
-    - content.code.copy
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tabs
     - navigation.sections
-    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - navigation.path
+    - navigation.tracking
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - content.action.view
+    - content.tooltips
     - search.suggest
+    - search.highlight
+    - search.share
+    - toc.follow
+
+nav:
+  - Home:
+    - index.md
+    - Changelog: changelog.md
+  - API Reference: api/
+
+exclude_docs: |
+  gen_ref_pages.py
 
 plugins:
   - search
   - mkdocstrings:
       handlers:
         python:
+          paths: [src]
           options:
-            docstring_style: google
             show_source: true
-            paths: [src]
+            show_root_heading: true
+            members_order: source
+            docstring_style: google
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            separate_signature: true
+            show_signature_annotations: true
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
 
 markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.mark
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - def_list
+  - footnotes
+  - abbr
   - toc:
       permalink: true
 
-nav:
-  - Home: index.md
-  - Changelog: changelog.md
+extra:
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
 
 watch:
   - src

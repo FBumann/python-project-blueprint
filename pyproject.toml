@@ -15,6 +15,8 @@ dependencies = []
 docs = [
     "mkdocs-material>=9",
     "mkdocstrings[python]>=0.27",
+    "mkdocs-gen-files>=0.5",
+    "mkdocs-literate-nav>=0.6",
 ]
 dev = [
     {include-group = "docs"},
