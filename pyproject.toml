@@ -40,5 +40,14 @@ select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 [tool.mypy]
 strict = true
 
+[tool.coverage.run]
+source = ["my_package"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["test"]
