@@ -11,13 +11,13 @@ license = "MIT"
 requires-python = ">=3.12"
 dependencies = []
 
-[project.optional-dependencies]
+[dependency-groups]
 docs = [
     "mkdocs-material>=9",
     "mkdocstrings[python]>=0.27",
 ]
 dev = [
-    "my-package[docs]",
+    {include-group = "docs"},
     "pytest>=8",
     "pytest-cov>=6",
     "mypy>=1",
