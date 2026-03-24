@@ -16,12 +16,36 @@ Opinionated blueprint for Python packages with automated CI, releases, and publi
 
 ## Release flow
 
+### Automated release
+
 ```
 merge to main  →  release-please opens version bump PR
-merge that PR  →  git tag + GitHub Release → PyPI publish → RTD rebuild
+                   (auto-generated CHANGELOG.md + version bump)
 ```
 
-Manual pre-releases:
+Review the PR. To customize the changelog before releasing, push edits
+to the release-please branch:
+
+```bash
+git fetch origin
+git checkout release-please--branches--main
+# edit CHANGELOG.md
+git add CHANGELOG.md
+git commit -m "docs: refine changelog for vX.Y.Z"
+git push
+```
+
+Then merge the PR:
+
+```
+merge release PR  →  git tag + GitHub Release → PyPI publish → RTD rebuild
+```
+
+> **Note:** release-please regenerates the PR when new commits land on `main`.
+> Edit the changelog only when you're ready to merge, and don't push to `main`
+> in between.
+
+### Manual pre-release
 
 ```bash
 git tag v1.0.0-rc.1
