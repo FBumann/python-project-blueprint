@@ -85,7 +85,10 @@ Add `CODECOV_TOKEN` as a repository secret.
 
 ### Branch protection
 
-Add `CI Success` as a required status check on `main`.
+1. Enable **push protection** on `main` — all changes must go through pull requests
+2. Add `CI Success` as a required status check on `main`
+
+CI only runs on pull requests (no push trigger), so never push directly to `main`.
 
 > **Warning:** GitHub matches required checks by exact job name string.
 > If you rename a job in a workflow, update branch protection to match —
