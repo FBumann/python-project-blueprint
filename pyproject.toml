@@ -13,7 +13,7 @@ dependencies = []
 
 [dependency-groups]
 docs = [
-    "mkdocs-material>=9",
+    "mkdocs-material>=9.7.6",
     "mkdocstrings[python]>=0.27",
     "mkdocs-gen-files>=0.5",
     "mkdocs-literate-nav>=0.6",
